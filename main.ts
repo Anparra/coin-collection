@@ -95,7 +95,7 @@ sprites.onOverlap(SpriteKind.rayW, SpriteKind.objective, function (sprite, other
     coinPositionY_W = coin.y
 })
 function calculateDistance () {
-    distanceCoin = Math.sqrt(0)
+    distanceCoin = Math.sqrt((mySprite.x - 0) ** 2 + (mySprite.y - 0) ** 2)
 }
 sprites.onOverlap(SpriteKind.rayNW, SpriteKind.objective, function (sprite, otherSprite) {
     coinPositionX_NW = coin.x
@@ -126,7 +126,8 @@ let coinPositionX_S = 0
 let coinPositionY_N = 0
 let coin: Sprite = null
 let coinPositionX_N = 0
-let mySprite = sprites.create(img`
+let mySprite: Sprite = null
+mySprite = sprites.create(img`
 . . . . . f f 4 4 f f . . . . . 
 . . . . f 5 4 5 5 4 5 f . . . . 
 . . . f e 4 5 5 5 5 4 e f . . . 
