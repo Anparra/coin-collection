@@ -1,7 +1,27 @@
 namespace SpriteKind {
     export const objective = SpriteKind.create()
     export const ray = SpriteKind.create()
+    export const rayE = SpriteKind.create()
+    export const rayNE = SpriteKind.create()
+    export const raySE = SpriteKind.create()
+    export const rayS = SpriteKind.create()
+    export const rayN = SpriteKind.create()
+    export const rayNW = SpriteKind.create()
+    export const rayW = SpriteKind.create()
+    export const raySW = SpriteKind.create()
 }
+sprites.onOverlap(SpriteKind.rayN, SpriteKind.objective, function (sprite, otherSprite) {
+    coinPositionX_N = coin.x
+    coinPositionY_N = coin.y
+})
+sprites.onOverlap(SpriteKind.rayS, SpriteKind.objective, function (sprite, otherSprite) {
+    coinPositionX_S = coin.x
+    coinPositionY_S = coin.y
+})
+sprites.onOverlap(SpriteKind.raySE, SpriteKind.objective, function (sprite, otherSprite) {
+    coinPositionX_SE = coin.x
+    coinPositionY_SE = coin.y
+})
 function background () {
     scene.setTile(7, img`
 . . . . . . . c c . . . . . . . 
@@ -58,10 +78,28 @@ c c b b c c c c b d d d b c c b
 7 7 5 7 7 7 7 7 7 7 7 7 7 7 7 5 
 `, true)
 }
-sprites.onOverlap(SpriteKind.ray, SpriteKind.objective, function (sprite, otherSprite) {
-    coin.setFlag(SpriteFlag.ShowPhysics, true)
-    coinPositionX = coin.x
-    coinPositionY = coin.y
+sprites.onOverlap(SpriteKind.raySW, SpriteKind.objective, function (sprite, otherSprite) {
+    coinPositionX_SW = coin.x
+    coinPositionY_SW = coin.y
+})
+sprites.onOverlap(SpriteKind.rayNE, SpriteKind.objective, function (sprite, otherSprite) {
+    coinPositionX_NE = coin.x
+    coinPositionY_NE = coin.y
+})
+sprites.onOverlap(SpriteKind.rayE, SpriteKind.objective, function (sprite, otherSprite) {
+    coinPositionX_E = coin.x
+    coinPositionY_NE = coin.y
+})
+sprites.onOverlap(SpriteKind.rayW, SpriteKind.objective, function (sprite, otherSprite) {
+    coinPositionX_W = coin.x
+    coinPositionY_W = coin.y
+})
+function calculateDistance () {
+    distanceCoin = Math.sqrt(0)
+}
+sprites.onOverlap(SpriteKind.rayNW, SpriteKind.objective, function (sprite, otherSprite) {
+    coinPositionX_NW = coin.x
+    coinPositionY_NW = coin.y
 })
 let raySW: Sprite = null
 let rayW: Sprite = null
@@ -71,9 +109,23 @@ let rayS: Sprite = null
 let raySE: Sprite = null
 let rayNE: Sprite = null
 let rayE: Sprite = null
-let coinPositionY = 0
-let coinPositionX = 0
+let coinPositionY_NW = 0
+let coinPositionX_NW = 0
+let distanceCoin = 0
+let coinPositionY_W = 0
+let coinPositionX_W = 0
+let coinPositionX_E = 0
+let coinPositionY_NE = 0
+let coinPositionX_NE = 0
+let coinPositionY_SW = 0
+let coinPositionX_SW = 0
+let coinPositionY_SE = 0
+let coinPositionX_SE = 0
+let coinPositionY_S = 0
+let coinPositionX_S = 0
+let coinPositionY_N = 0
 let coin: Sprite = null
+let coinPositionX_N = 0
 let mySprite = sprites.create(img`
 . . . . . f f 4 4 f f . . . . . 
 . . . . f 5 4 5 5 4 5 f . . . . 
@@ -172,7 +224,7 @@ game.onUpdateInterval(500, function () {
 . . . . . . . . d . . . . . . . 
 . . . . d d d d . . . . . . . . 
 `, mySprite, 300, 0)
-    rayE.setKind(SpriteKind.ray)
+    rayE.setKind(SpriteKind.rayE)
     rayNE = sprites.createProjectileFromSprite(img`
 . . . . d d d d . . . . . . . . 
 . . . . . . . . d . . . . . . . 
@@ -191,7 +243,7 @@ game.onUpdateInterval(500, function () {
 . . . . . . . . d . . . . . . . 
 . . . . d d d d . . . . . . . . 
 `, mySprite, 350, -300)
-    rayNE.setKind(SpriteKind.ray)
+    rayNE.setKind(SpriteKind.rayNE)
     raySE = sprites.createProjectileFromSprite(img`
 . . . . d d d d . . . . . . . . 
 . . . . . . . . d . . . . . . . 
@@ -210,7 +262,7 @@ game.onUpdateInterval(500, function () {
 . . . . . . . . d . . . . . . . 
 . . . . d d d d . . . . . . . . 
 `, mySprite, 350, 300)
-    raySE.setKind(SpriteKind.ray)
+    raySE.setKind(SpriteKind.raySE)
     rayS = sprites.createProjectileFromSprite(img`
 . . . . d d d d . . . . . . . . 
 . . . . . . . . d . . . . . . . 
@@ -229,7 +281,7 @@ game.onUpdateInterval(500, function () {
 . . . . . . . . d . . . . . . . 
 . . . . d d d d . . . . . . . . 
 `, mySprite, 50, 300)
-    rayS.setKind(SpriteKind.ray)
+    rayS.setKind(SpriteKind.rayS)
     rayN = sprites.createProjectileFromSprite(img`
 . . . . d d d d . . . . . . . . 
 . . . . . . . . d . . . . . . . 
@@ -248,7 +300,7 @@ game.onUpdateInterval(500, function () {
 . . . . . . . . d . . . . . . . 
 . . . . d d d d . . . . . . . . 
 `, mySprite, 50, -300)
-    rayN.setKind(SpriteKind.ray)
+    rayN.setKind(SpriteKind.rayN)
     rayNW = sprites.createProjectileFromSprite(img`
 . . . . d d d d . . . . . . . . 
 . . . . . . . . d . . . . . . . 
@@ -267,7 +319,7 @@ game.onUpdateInterval(500, function () {
 . . . . . . . . d . . . . . . . 
 . . . . d d d d . . . . . . . . 
 `, mySprite, -350, -300)
-    rayNW.setKind(SpriteKind.ray)
+    rayNW.setKind(SpriteKind.rayNW)
     rayW = sprites.createProjectileFromSprite(img`
 . . . . d d d d . . . . . . . . 
 . . . . . . . . d . . . . . . . 
@@ -286,7 +338,7 @@ game.onUpdateInterval(500, function () {
 . . . . . . . . d . . . . . . . 
 . . . . d d d d . . . . . . . . 
 `, mySprite, -350, 0)
-    rayW.setKind(SpriteKind.ray)
+    rayW.setKind(SpriteKind.rayW)
     raySW = sprites.createProjectileFromSprite(img`
 . . . . d d d d . . . . . . . . 
 . . . . . . . . d . . . . . . . 
@@ -305,5 +357,5 @@ game.onUpdateInterval(500, function () {
 . . . . . . . . d . . . . . . . 
 . . . . d d d d . . . . . . . . 
 `, mySprite, -350, 300)
-    raySW.setKind(SpriteKind.ray)
+    raySW.setKind(SpriteKind.raySW)
 })
